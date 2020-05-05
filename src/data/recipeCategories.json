@@ -1,0 +1,32 @@
+[
+  {
+    "category": "produce",
+    "id": "001",
+    "ingredients": ["red onion", "tomato", "radish", "lettuce", "cucumber"]
+  },
+  {
+    "category": "spices",
+    "id": "002",
+    "ingredients": ["paprika", "salt", "pepper", "anise"]
+  },
+  {
+    "category": "meatAndFish",
+    "id": "003",
+    "ingredients": ["chicken", "chunk light tuna", "lamb", "goat"]
+  },
+  {
+    "category": "grains",
+    "id": "004",
+    "ingredients": ["naan", "whole wheat bread", "pita", "tortilla"]
+  },
+  {
+    "category": "dairyAndEggs",
+    "id": "005",
+    "ingredients": ["yoghurt", "eggs", "cheddar cheese", "lowfat milk"]
+  },
+  {
+    "category": "condiments",
+    "id": "006",
+    "ingredients": ["extra virgin olive oil"]
+  }
+]

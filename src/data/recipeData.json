@@ -1,0 +1,83 @@
+[
+  {
+    "recipeName": "Quick Lentil Salmon Salad",
+    "URL": "https://www.washingtonpost.com/news/voraciously/wp/2020/04/28/this-salad-uses-lentils-and-canned-salmon-for-a-quick-and-tasty-weeknight-meal/#voraciously-recipe-ingredients",
+    "ingredients": [
+      ["brown lentils", "7oz", { "category": "grains" }],
+      ["red onion", "0.5cup", { "category": "produce" }],
+      ["bay leaf", "1", { "category": "spices" }],
+      ["dried oregano", "0.5tsp", { "category": "spices" }],
+      ["garlic", "2 cloves", { "category": "spices" }],
+      ["kosher salt", "0.5tsp", { "category": "spices" }],
+      ["extra virgin olive oil", "0.25 cup", { "category": "condiments" }],
+      ["red wine vinegar", "3 tblspn", { "category": "condiments" }],
+      ["dried thyme", "0.75tspn", { "category": "spices" }],
+      ["sweet paprika", "0.25 tspn", { "category": "spices" }],
+      ["ground pepper", "0.25 tspn", { "category": "spices" }]
+    ]
+  },
+  {
+    "recipeName": "Mediterranean Tuna Panini",
+    "URL": "https://www.washingtonpost.com/news/voraciously/wp/2020/04/21/canned-tuna-goes-bold-with-mediterranean-flavors/",
+    "ingredients": [
+      ["chunk light tuna", "2 cans", { "category": "meatAndFish" }],
+      ["crumbled feta cheese", "0.5 cup", { "category": "dairyAndEggs" }],
+      ["marinated artichoke hearts", "3 tblspn", { "category": "produce" }],
+      ["pitted kalamata olives", "2 tblspn", { "category": "produce" }],
+      ["capers", "2 tspn", { "category": "spices" }],
+      ["lemon juice", "2 tspn", { "category": "produce" }],
+      ["Freshly ground black pepper", null, { "category": "spices" }],
+      ["extra virgin olive oil", "2 tspn", { "category": "condiments" }],
+      ["whole-wheat bread", "8 slices", { "category": "grains" }]
+    ]
+  },
+  {
+    "recipeName": "Hash Brown-Crust Veggie Pie",
+    "URL": "https://www.washingtonpost.com/news/voraciously/wp/2020/04/14/frozen-hash-browns-make-an-easy-crispy-crust-for-a-savory-pie/",
+    "ingredients": [
+      ["hash browns", "3 cups", { "category": "other" }],
+      ["salted butter", "4 tblspn", { "category": "spices" }],
+      ["eggs", "3", { "category": "dairyAndEggs" }],
+      ["evaporated milk", "1 cup", { "category": "dairyAndEggs" }],
+      ["kosher salt", "0.5 tspn", { "category": "spices" }],
+      ["cayenne pepper", "0.25 tspn", { "category": "spices" }],
+      ["garlic powder", "0.25 tspn", { "category": "spices" }],
+      ["nutmeg", "0.25 tspn", { "category": "spices" }],
+      ["asparagus", "7oz", { "category": "produce" }],
+      ["cheddar cheese", "1 cup", { "category": "dairyAndEggs" }],
+      ["yellow onion", "0.5 cup", { "category": "produce" }],
+      ["tortilla", "12", { "category": "grains" }]
+    ]
+  },
+  {
+    "recipeName": "Baked Black Bean and Corn Taquitos with Mango Salsa",
+
+    "URL": "https://www.washingtonpost.com/news/voraciously/wp/2020/04/07/these-black-bean-and-corn-taquitos-are-as-much-fun-to-make-as-they-are-to-eat/",
+    "ingredients": [
+      ["black beans", "2 cups", { "category": "other" }],
+      ["chili powder", "0.5 tspn", { "category": "spices" }],
+      ["cumin", "0.5 tspn", { "category": "spices" }],
+      ["paprika", "0.5 tspn", { "category": "spices" }],
+      ["salt", "0.25 tspn", { "category": "spices" }],
+      ["red pepper flakes", "0.25 tspn", { "category": "spices" }],
+      ["onion powder", "0.25 tspn", { "category": "spices" }],
+      ["garlic powder", "0.25 tspn", { "category": "spices" }],
+      ["dried oregano", "0.25 tspn", { "category": "spices" }],
+      ["cayenne pepper", "0.125 tspn", { "category": "spices" }],
+      ["whole kernel corn", "1 cup", { "category": "produce" }],
+      ["medium salsa", "0.25 cup", { "category": "other" }],
+      ["sharp cheddar cheese", "1.5 cups", { "category": "dairyAndEggs" }],
+      ["6-in tortillas", "24", { "category": "grains" }],
+      ["Olive oil", null],
+      { "category": "condiments" },
+      ["white onion", "0.25 cup", { "category": "produce" }],
+      ["jalapeño pepper", "1", { "category": "produce" }],
+      ["lime juice", "3 tblspn", { "category": "produce" }],
+      ["extra-virgin olive oil", "2 tblspn", { "category": "condiments" }],
+      ["ground cumin", "0.25 tspn", { "category": "spices" }],
+      ["salt", "0.25 tspn", { "category": "spices" }],
+      ["ground white pepper", "0.25 tspn", { "category": "spices" }],
+      ["frozen mango", "10oz", { "category": "produce" }]
+    ]
+  }
+]
