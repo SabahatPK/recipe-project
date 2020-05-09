@@ -37,6 +37,11 @@ export default function buildCategory() {
       id: "007",
       ingredients: [],
     },
+    {
+      category: "instructions",
+      id: "008",
+      ingredients: [],
+    },
   ];
 
   let allIngredients = dataRecipe.map((each) => each.ingredients);
@@ -103,27 +108,10 @@ export default function buildCategory() {
     }
   }
 
+  //Get rid of dupes as ingredients come in from different lists:
+  allCategories.map(
+    (each) => (each.ingredients = Array.from(new Set(each.ingredients)))
+  );
+
   return allCategories;
-
-  //OUTS: get rid of dupes in each category's ingredient list:
-  // let allCategoryIngredients = allCategories.map((each) => each.ingredients);
-
-  // const filteredArr = allCategoryIngredients.map((each) => {
-
-  //   each.reduce((acc, current) => {
-  //     const x = acc.find((item) => item === current);
-  //     if (!x) {
-  //       return acc.concat([current]);
-  //     } else {
-  //       return acc;
-  //     }
-  //   }, []);
-  // });
 }
-
-// end result:
-// {
-//     "category": "produce",
-//     "id": "001",
-//     "ingredients": ["red onion", "tomato", "radish", "lettuce", "cucumber"]
-//   }

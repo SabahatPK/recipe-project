@@ -125,7 +125,6 @@ class Ingredients extends Component {
                   >
                     Select All
                   </button>
-
                   <button
                     type="button"
                     className="btn btn-outline-primary mr-2"
