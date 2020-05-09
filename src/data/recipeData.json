@@ -26,7 +26,7 @@
       ["pitted kalamata olives", "2 tblspn", { "category": "produce" }],
       ["capers", "2 tspn", { "category": "spices" }],
       ["lemon juice", "2 tspn", { "category": "produce" }],
-      ["Freshly ground black pepper", null, { "category": "spices" }],
+      ["Freshly ground black pepper", "check recipe", { "category": "spices" }],
       ["extra virgin olive oil", "2 tspn", { "category": "condiments" }],
       ["whole-wheat bread", "8 slices", { "category": "grains" }]
     ]
@@ -68,8 +68,7 @@
       ["medium salsa", "0.25 cup", { "category": "other" }],
       ["sharp cheddar cheese", "1.5 cups", { "category": "dairyAndEggs" }],
       ["6-in tortillas", "24", { "category": "grains" }],
-      ["Olive oil", null],
-      { "category": "condiments" },
+      ["Olive oil", "check recipe", { "category": "condiments" }],
       ["white onion", "0.25 cup", { "category": "produce" }],
       ["jalapeño pepper", "1", { "category": "produce" }],
       ["lime juice", "3 tblspn", { "category": "produce" }],

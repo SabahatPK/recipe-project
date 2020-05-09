@@ -1,18 +1,25 @@
 import React, { Component } from "react";
 import dataRecipe from "../data/recipeData.json";
-import indgredientCategories from "../data/recipeCategories.json";
+// import indgredientCategories from "../data/recipeCategories.json";
 import Checkbox from "./checkbox";
+import buildCategory from "./../utilities/buildIngredientCategoryList";
 
 class Ingredients extends Component {
   state = {
     category: "",
     recipes: dataRecipe,
-    indgredientCategories: indgredientCategories,
+    indgredientCategories: buildCategory(),
     selectedCategory: "",
     selectedIngredients: [],
     winner: [],
     objOfCheckboxes: {},
   };
+
+  //OUTS: should get data via this lifecycle hook rather than running function in state:
+  // componentDidMount() {
+  //   let indgredientCategories = buildCategory();
+  //   this.setState({ indgredientCategories });
+  // }
 
   handleProduceChange = (event) => {
     let category = this.state.category;
@@ -36,7 +43,6 @@ class Ingredients extends Component {
 
     let objOfCheckboxes = this.state.objOfCheckboxes;
     objOfCheckboxes[name] = checked;
-    console.log(objOfCheckboxes);
 
     let selectedIngredients = this.state.selectedIngredients;
     if (checked === true && selectedIngredients.indexOf(name) < 0) {
@@ -83,13 +89,15 @@ class Ingredients extends Component {
           match += 1;
         }
       });
-      winner.push([recipe["recipeName"], match / totalCount]);
+      winner.push([recipe, match / totalCount]);
     });
 
     this.setState({ winner });
   };
 
   render() {
+    let winnerToPrint = this.state.winner.filter((each) => each[1] > 0);
+
     return (
       <React.Fragment>
         {/* Future plans: https://www.w3schools.com/howto/howto_js_autocomplete.asp */}
@@ -110,7 +118,7 @@ class Ingredients extends Component {
                 {this.createCheckboxes()}
 
                 <div className="form-group mt-2">
-                  <button
+                  {/* <button
                     type="button"
                     className="btn btn-outline-primary mr-2"
                     onClick={this.selectAll}
@@ -124,10 +132,10 @@ class Ingredients extends Component {
                     onClick={this.deselectAll}
                   >
                     Deselect All
-                  </button>
+                  </button> */}
 
                   <button type="submit" className="btn btn-primary">
-                    Save
+                    Show Me The Recipes!
                   </button>
                 </div>
               </form>
@@ -145,17 +153,33 @@ class Ingredients extends Component {
             </div>
 
             <div className="col-sm-3">
-              {this.state.winner.length > 0 ? (
-                <h6>Winning Recipe(s): </h6>
-              ) : null}
+              <h6>Winning Recipe(s): </h6>
 
               <ul>
-                {this.state.winner.map((each) =>
-                  each[1] > 0 ? (
-                    <React.Fragment>
-                      <li key={each[0]}>{each[0]}</li> <p>{each[1]}</p>
+                {winnerToPrint.length > 0 ? (
+                  winnerToPrint.map((each) => (
+                    <React.Fragment key={each[0]["recipeName"]}>
+                      <li>
+                        <a
+                          href={each[0]["URL"]}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {each[0]["recipeName"]}
+                        </a>
+                      </li>{" "}
+                      <p>
+                        You have {(each[1] * 100).toFixed(2)}% of the
+                        ingredients.
+                      </p>
                     </React.Fragment>
-                  ) : null
+                  ))
+                ) : (
+                  <p>
+                    {" "}
+                    Add more ingredients to pantry then press Show Me The
+                    Recipes!
+                  </p>
                 )}
               </ul>
             </div>

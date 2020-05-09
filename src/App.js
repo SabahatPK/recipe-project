@@ -1,5 +1,5 @@
 import React from "react";
-import Ingredients from "./components/ingredientPicker";
+import Ingredients from "./componentsWithHooks/ingredientPickerHooks";
 import Navbar from "react-bootstrap/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
