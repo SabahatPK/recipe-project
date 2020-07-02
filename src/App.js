@@ -9,6 +9,14 @@ function App() {
     <React.Fragment>
       <Navbar fixed="top" expand="lg" variant="light" bg="light">
         <Navbar.Brand href="#">What Should I Cook Tonight</Navbar.Brand>
+        <Navbar.Text>
+          <a
+            target="_blank"
+            href="https://github.com/SabahatPK/recipe-project-mobile"
+          >
+            (mobile version in progess)
+          </a>
+        </Navbar.Text>
       </Navbar>
       <main>
         <div className="container">

@@ -116,11 +116,18 @@ function IngredientPickerHooks(props) {
   //OUTS - would be great to save the dropdown to the last category that was selected but
   //I think that requires more than just saving the last category that was selected;
   //have to actually change dropdown.
+
+  //START:
+  //1. Use this to define ingredient categories: https://edsoehnel.com/retail-cpg-grocery-categories/ or find another one?
+  //2. Look at FCC Forum for answer on how to automate creation of JSON.
+  //3. Do these guys want to use my app? https://www.foodhero.org/recipes/categories/1277
+  //4. Email WashPo recipe authors and ask them if I can get permission and access to their ingredient lists?
+  //5. ALso try PakistanEats creator, Purple Carrot recipes.
   return (
     <Fragment>
       <div className="container">
         <select onChange={handleProduceChange}>
-          <option value="instructions">Select a category</option>
+          <option value="instructions">What's in the pantry?</option>
           <option value="produce">Produce</option>
           <option value="spices">Spices</option>
           <option value="meatAndFish">Meat and Fish</option>
