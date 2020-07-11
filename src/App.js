@@ -4,6 +4,9 @@ import Navbar from "react-bootstrap/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
+//Referenec: autocomplete input box:
+//https://blog.bitsrc.io/building-a-react-autocomplete-component-from-scratch-b78105324f4c
+
 function App() {
   return (
     <React.Fragment>
@@ -13,6 +16,7 @@ function App() {
           <a
             target="_blank"
             href="https://github.com/SabahatPK/recipe-project-mobile"
+            rel="noopener noreferrer"
           >
             (mobile version in progess)
           </a>

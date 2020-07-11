@@ -2,18 +2,75 @@ import React, { useState, useEffect, Fragment } from "react";
 import dataRecipe from "../data/recipeData.json";
 import buildCategory from "./../utilities/buildIngredientCategoryList";
 import Checkbox from "./checkboxHooks";
+import Autocomplete from "./autocompleteHooks";
 
 function IngredientPickerHooks(props) {
   const [category, setCategory] = useState("");
   const [recipes] = useState(dataRecipe);
   const [indgredientCategories] = useState(buildCategory());
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategoryFromAC, setSelectedCategoryFromAC] = useState("");
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [winner, setWinner] = useState([]);
   const [objOfCheckboxes, setObjOfCheckboxes] = useState({});
   const [winnerToPrint, setWinnerToPrint] = useState([]);
 
+  function callbackSetIngredients(ingredientChild) {
+    console.log(ingredientChild);
+    let tempSelectedIngredients = selectedIngredients;
+    let tempSelectedCategory = selectedCategory;
+    if (tempSelectedIngredients.indexOf(ingredientChild) < 0) {
+      tempSelectedIngredients.push(ingredientChild);
+    } else {
+      tempSelectedIngredients.splice(
+        tempSelectedIngredients.indexOf(ingredientChild),
+        1
+      );
+    }
+
+    tempSelectedCategory = [
+      {
+        category: "produce",
+        id: "001",
+        ingredients: Array(11),
+      },
+    ];
+
+    //START: Have to follow same user story as when they check a box from list.
+    //1. Ingredient has to show up under "Selected Ingredients" on page
+    //2. Checkbox has to be selected
+    //3. Re-typing the ingredient should NOT delete it Selected Ingredients.
+    //4. That should be with an X next to ingredient when user hovers over item.
+    //Last item (4) is for both checkbox route and searchbox route.
+
+    setSelectedIngredients(tempSelectedIngredients);
+
+    setSelectedCategory(tempSelectedCategory); //This will vary dep on algo:
+    //1. Find the obj that holds this ingredient in the indgredientCategories array
+    //2. Get the value of that obj "category" property
+    //3. Hardcode: Map that value to an index based on where it falls in the "produceSelect" select dropdown below.
+    //4. Example: index 2 in "produceSelect" is "spices"
+
+    intermediateAfterAutoComplete();
+  }
+
+  function intermediateAfterAutoComplete() {
+    console.log(selectedIngredients); //returns proper value
+    console.log(selectedCategory);
+
+    //Have to replace the "2" with actual index based on other code that finds it.
+    // document.getElementById("produceSelect").selectedIndex = "2";
+
+    // setSelectedCategoryFromAC(
+    //   document.getElementById("produceSelect").selectedIndex
+    // );
+
+    // handleProduceChange(undefined, "produce");
+  }
+
   function handleProduceChange(event) {
+    console.log("handleProduceChange is running now");
+
     let tempCategory = category;
     tempCategory = event.target.value;
 
@@ -21,12 +78,16 @@ function IngredientPickerHooks(props) {
       (each) => each.category === tempCategory
     );
 
+    console.log(tempSelectedCategory);
+
     const obj = tempSelectedCategory[0]["ingredients"].reduce(
       (o, key) => ({ ...o, [key]: false }),
       {}
     );
 
     let tempObjOfCheckboxes = { ...obj, ...objOfCheckboxes };
+
+    console.log(tempObjOfCheckboxes);
 
     setCategory(tempCategory);
     setSelectedCategory(tempSelectedCategory);
@@ -51,6 +112,7 @@ function IngredientPickerHooks(props) {
   }
 
   function createCheckbox(option) {
+    console.log("createCheckbox running now");
     return (
       <Checkbox
         label={option}
@@ -62,6 +124,11 @@ function IngredientPickerHooks(props) {
   }
 
   function createCheckboxes() {
+    console.log(
+      selectedCategory
+        ? selectedCategory[0]["ingredients"].map(createCheckbox)
+        : null
+    );
     return selectedCategory
       ? selectedCategory[0]["ingredients"].map(createCheckbox)
       : null;
@@ -116,17 +183,14 @@ function IngredientPickerHooks(props) {
   //OUTS - would be great to save the dropdown to the last category that was selected but
   //I think that requires more than just saving the last category that was selected;
   //have to actually change dropdown.
-
-  //START:
   //1. Use this to define ingredient categories: https://edsoehnel.com/retail-cpg-grocery-categories/ or find another one?
   //2. Look at FCC Forum for answer on how to automate creation of JSON.
-  //3. Do these guys want to use my app? https://www.foodhero.org/recipes/categories/1277
-  //4. Email WashPo recipe authors and ask them if I can get permission and access to their ingredient lists?
-  //5. ALso try PakistanEats creator, Purple Carrot recipes.
+  //3. Email WashPo recipe authors and ask them if I can get permission and access to their ingredient lists?
+  //4. ALso try PakistanEats creator, Purple Carrot recipes.
   return (
     <Fragment>
       <div className="container">
-        <select onChange={handleProduceChange}>
+        <select onChange={handleProduceChange} id="produceSelect">
           <option value="instructions">What's in the pantry?</option>
           <option value="produce">Produce</option>
           <option value="spices">Spices</option>
@@ -135,6 +199,12 @@ function IngredientPickerHooks(props) {
           <option value="dairyAndEggs">Dairy and Eggs</option>
           <option value="condiments">Condiments</option>
         </select>
+
+        <Autocomplete
+          allIngredients={indgredientCategories}
+          //Explanation: https://forum.freecodecamp.org/t/can-someone-check-code-for-sending-variable-from-child-to-parent-in-react/408975/2?u=sabbyiqbal
+          parentCallback={callbackSetIngredients}
+        />
 
         <div className="row mt-5">
           <div className="col-sm-6">
