@@ -9,76 +9,28 @@ function IngredientPickerHooks(props) {
   const [recipes] = useState(dataRecipe);
   const [indgredientCategories] = useState(buildCategory());
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedCategoryFromAC, setSelectedCategoryFromAC] = useState("");
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [winner, setWinner] = useState([]);
   const [objOfCheckboxes, setObjOfCheckboxes] = useState({});
   const [winnerToPrint, setWinnerToPrint] = useState([]);
 
-  function callbackSetIngredients(ingredientChild) {
-    console.log(ingredientChild);
-    let tempSelectedIngredients = selectedIngredients;
-    let tempSelectedCategory = selectedCategory;
-    if (tempSelectedIngredients.indexOf(ingredientChild) < 0) {
-      tempSelectedIngredients.push(ingredientChild);
-    } else {
-      tempSelectedIngredients.splice(
-        tempSelectedIngredients.indexOf(ingredientChild),
-        1
-      );
-    }
-
-    tempSelectedCategory = [
-      {
-        category: "produce",
-        id: "001",
-        ingredients: Array(11),
-      },
-    ];
-
-    //START: Have to follow same user story as when they check a box from list.
-    //1. Ingredient has to show up under "Selected Ingredients" on page
-    //2. Checkbox has to be selected
-    //3. Re-typing the ingredient should NOT delete it Selected Ingredients.
-    //4. That should be with an X next to ingredient when user hovers over item.
-    //Last item (4) is for both checkbox route and searchbox route.
-
-    setSelectedIngredients(tempSelectedIngredients);
-
-    setSelectedCategory(tempSelectedCategory); //This will vary dep on algo:
-    //1. Find the obj that holds this ingredient in the indgredientCategories array
-    //2. Get the value of that obj "category" property
-    //3. Hardcode: Map that value to an index based on where it falls in the "produceSelect" select dropdown below.
-    //4. Example: index 2 in "produceSelect" is "spices"
-
-    intermediateAfterAutoComplete();
-  }
-
-  function intermediateAfterAutoComplete() {
-    console.log(selectedIngredients); //returns proper value
-    console.log(selectedCategory);
-
-    //Have to replace the "2" with actual index based on other code that finds it.
-    // document.getElementById("produceSelect").selectedIndex = "2";
-
-    // setSelectedCategoryFromAC(
-    //   document.getElementById("produceSelect").selectedIndex
-    // );
-
-    // handleProduceChange(undefined, "produce");
-  }
-
-  function handleProduceChange(event) {
-    console.log("handleProduceChange is running now");
+  function callbackSetIngredients(ingredientChild, ingredientCategory) {
+    document.getElementById("produceSelect").selectedIndex = [
+      "instructions",
+      "produce",
+      "spices",
+      "meatAndFish",
+      "grains",
+      "dairyAndEggs",
+      "condiments",
+    ].indexOf(ingredientCategory);
 
     let tempCategory = category;
-    tempCategory = event.target.value;
+    tempCategory = ingredientCategory;
 
     let tempSelectedCategory = indgredientCategories.filter(
       (each) => each.category === tempCategory
     );
-
-    console.log(tempSelectedCategory);
 
     const obj = tempSelectedCategory[0]["ingredients"].reduce(
       (o, key) => ({ ...o, [key]: false }),
@@ -87,32 +39,89 @@ function IngredientPickerHooks(props) {
 
     let tempObjOfCheckboxes = { ...obj, ...objOfCheckboxes };
 
-    console.log(tempObjOfCheckboxes);
+    tempObjOfCheckboxes[ingredientChild] = true;
+
+    setCategory(tempCategory);
+    setSelectedCategory(tempSelectedCategory);
+    setObjOfCheckboxes(tempObjOfCheckboxes);
+
+    handleCheckboxChange(undefined, ingredientChild, undefined);
+
+    // OUTS: Add Firebase backend
+
+    //OUTS: Have to follow same user story as when they check a box from list.
+    //1. Ingredient has to show up under "Selected Ingredients" on page - DONE
+    //2. Checkbox has to be selected - DONE
+    //3. Re-typing the ingredient should NOT delete it Selected Ingredients - ?
+    //4. That should be with an X next to ingredient when user hovers over item
+    //Last item (4) is for both checkbox route and searchbox route.
+  }
+
+  function handleProduceChange(event) {
+    let tempCategory = category;
+    tempCategory = event.target.value;
+
+    let tempSelectedCategory = indgredientCategories.filter(
+      (each) => each.category === tempCategory
+    );
+
+    const obj = tempSelectedCategory[0]["ingredients"].reduce(
+      (o, key) => ({ ...o, [key]: false }),
+      {}
+    );
+
+    let tempObjOfCheckboxes = { ...obj, ...objOfCheckboxes };
 
     setCategory(tempCategory);
     setSelectedCategory(tempSelectedCategory);
     setObjOfCheckboxes(tempObjOfCheckboxes);
   }
 
-  function handleCheckboxChange(changeEvent) {
-    const { name, checked } = changeEvent.target;
+  //START HERE: trigger this event from handleClickIngredient() and have it DELETE from selectedIngredients
+  function handleCheckboxChange(changeEvent, dataFromAC, dataFromClick) {
+    if (changeEvent) {
+      const { name, checked } = changeEvent.target;
 
-    let tempObjOfCheckboxes = { ...objOfCheckboxes };
-    tempObjOfCheckboxes[name] = checked;
+      let tempObjOfCheckboxes = { ...objOfCheckboxes };
 
-    let tempSelectedIngredients = selectedIngredients;
-    if (checked === true && tempSelectedIngredients.indexOf(name) < 0) {
-      tempSelectedIngredients.push(name);
+      tempObjOfCheckboxes[name] = checked;
+
+      let tempSelectedIngredients = selectedIngredients;
+      if (checked === true && tempSelectedIngredients.indexOf(name) < 0) {
+        tempSelectedIngredients.push(name);
+      } else {
+        tempSelectedIngredients.splice(
+          tempSelectedIngredients.indexOf(name),
+          1
+        );
+      }
+
+      setSelectedIngredients(tempSelectedIngredients);
+      setObjOfCheckboxes(tempObjOfCheckboxes);
+    } else if (dataFromAC) {
+      let tempSelectedIngredients = selectedIngredients;
+
+      if (tempSelectedIngredients.indexOf(dataFromAC) < 0) {
+        tempSelectedIngredients.push(dataFromAC);
+      }
+
+      setSelectedIngredients(tempSelectedIngredients);
     } else {
-      tempSelectedIngredients.splice(tempSelectedIngredients.indexOf(name), 1);
-    }
+      console.log("From handleCheckboxChange " + dataFromClick);
+      let tempSelectedIngredients = selectedIngredients;
 
-    setSelectedIngredients(tempSelectedIngredients);
-    setObjOfCheckboxes(tempObjOfCheckboxes);
+      tempSelectedIngredients.splice(
+        tempSelectedIngredients.indexOf(dataFromClick),
+        1
+      );
+
+      console.log(tempSelectedIngredients);
+      console.log(objOfCheckboxes);
+      setSelectedIngredients(tempSelectedIngredients);
+    }
   }
 
   function createCheckbox(option) {
-    console.log("createCheckbox running now");
     return (
       <Checkbox
         label={option}
@@ -124,11 +133,6 @@ function IngredientPickerHooks(props) {
   }
 
   function createCheckboxes() {
-    console.log(
-      selectedCategory
-        ? selectedCategory[0]["ingredients"].map(createCheckbox)
-        : null
-    );
     return selectedCategory
       ? selectedCategory[0]["ingredients"].map(createCheckbox)
       : null;
@@ -161,7 +165,14 @@ function IngredientPickerHooks(props) {
     setWinnerToPrint(tempWinnerToPrint);
   }
 
-  //Confirm that empty array (see Mosh video) in useEffect function below is actually what I want.
+  function handleClickIngredient(input) {
+    console.log("====================================");
+    console.log("From handle click" + input);
+
+    handleCheckboxChange(undefined, undefined, input);
+  }
+
+  //OUTS - Confirm that empty array (see Mosh video) in useEffect function below is actually what I want.
   useEffect(() => {
     const myIngredients = localStorage.getItem("my-ingredients");
     const myCheckedBoxes = localStorage.getItem("my-checked-boxes");
@@ -180,16 +191,17 @@ function IngredientPickerHooks(props) {
     localStorage.setItem("my-winning-recipes", JSON.stringify(winnerToPrint));
   });
 
-  //OUTS - would be great to save the dropdown to the last category that was selected but
-  //I think that requires more than just saving the last category that was selected;
-  //have to actually change dropdown.
+  //OUTS -
   //1. Use this to define ingredient categories: https://edsoehnel.com/retail-cpg-grocery-categories/ or find another one?
   //2. Look at FCC Forum for answer on how to automate creation of JSON.
   //3. Email WashPo recipe authors and ask them if I can get permission and access to their ingredient lists?
-  //4. ALso try PakistanEats creator, Purple Carrot recipes.
+  //4. Also try PakistanEats creator, Purple Carrot recipes.
   return (
     <Fragment>
-      <div className="container">
+      <div className="step1a">
+        <h5>STEP ONE: Pick your ingredients!</h5>
+      </div>
+      <div className="step1b">
         <select onChange={handleProduceChange} id="produceSelect">
           <option value="instructions">What's in the pantry?</option>
           <option value="produce">Produce</option>
@@ -199,68 +211,76 @@ function IngredientPickerHooks(props) {
           <option value="dairyAndEggs">Dairy and Eggs</option>
           <option value="condiments">Condiments</option>
         </select>
+      </div>
 
+      <div className="step1c">
         <Autocomplete
           allIngredients={indgredientCategories}
           //Explanation: https://forum.freecodecamp.org/t/can-someone-check-code-for-sending-variable-from-child-to-parent-in-react/408975/2?u=sabbyiqbal
           parentCallback={callbackSetIngredients}
         />
+      </div>
 
-        <div className="row mt-5">
-          <div className="col-sm-6">
-            <form onSubmit={handleFormSubmit}>
-              {createCheckboxes()}
+      <div className="step1d">
+        <ul>
+          {selectedIngredients.map((each) => (
+            <li
+              key={each}
+              onClick={() => {
+                handleClickIngredient(each);
+              }}
+            >
+              {each}
+            </li>
+          ))}
+        </ul>
+      </div>
 
-              <div className="form-group mt-2">
-                <button type="submit" className="btn btn-primary">
-                  Show Me The Recipes!
-                </button>
-              </div>
-            </form>
+      {/* Start here: is it possible to get the list into seperate divs if it's beyond a certain length? */}
+      {/* ALSO: link up Firebase backend: https://forum.freecodecamp.org/t/how-to-add-firebase-to-react-app/413372/2 */}
+
+      <div className="step2a">
+        <h5>STEP TWO: Find Your Recipes!</h5>
+      </div>
+      <div className="step2b">
+        <form onSubmit={handleFormSubmit}>
+          <div className="form-group mt-2">
+            <button type="submit" className="btn btn-primary">
+              Show Me The Recipes!
+            </button>
           </div>
+          {createCheckboxes()}
+        </form>
+      </div>
 
-          <div className="col-sm-3">
-            {selectedIngredients.length > 0 ? (
-              <h6>Selected Ingredients:</h6>
-            ) : null}
+      <div className="step2c">
+        <h6>Winning Recipe(s): </h6>
 
-            <ul>
-              {selectedIngredients.map((each) => (
-                <li key={each}>{each}</li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="col-sm-3">
-            <h6>Winning Recipe(s): </h6>
-
-            <ul>
-              {winnerToPrint.length > 0 ? (
-                winnerToPrint.map((each) => (
-                  <React.Fragment key={each[0]["recipeName"]}>
-                    <li>
-                      <a
-                        href={each[0]["URL"]}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {each[0]["recipeName"]}
-                      </a>
-                    </li>{" "}
-                    <p>
-                      You have {(each[1] * 100).toFixed(2)}% of the ingredients.
-                    </p>
-                  </React.Fragment>
-                ))
-              ) : (
+        <ul>
+          {winnerToPrint.length > 0 ? (
+            winnerToPrint.map((each) => (
+              <React.Fragment key={each[0]["recipeName"]}>
+                <li>
+                  <a
+                    href={each[0]["URL"]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {each[0]["recipeName"]}
+                  </a>
+                </li>{" "}
                 <p>
-                  {" "}
-                  Add more ingredients to pantry then press Show Me The Recipes!
+                  You have {(each[1] * 100).toFixed(2)}% of the ingredients.
                 </p>
-              )}
-            </ul>
-          </div>
-        </div>
+              </React.Fragment>
+            ))
+          ) : (
+            <p>
+              {" "}
+              Add more ingredients to pantry then press Show Me The Recipes!
+            </p>
+          )}
+        </ul>
       </div>
     </Fragment>
   );

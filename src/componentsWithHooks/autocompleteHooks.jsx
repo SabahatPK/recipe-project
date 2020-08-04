@@ -28,7 +28,6 @@ const Autocomplete = (props) => {
     setActiveOption(0);
     setFilteredOptions([]);
     setShowOptions(false);
-    console.log(e.currentTarget.innerText); //send this to parent as selected ingredient
     sendIngredients(e.currentTarget.innerText);
     setUserInput(e.currentTarget.innerText);
   }
@@ -53,7 +52,15 @@ const Autocomplete = (props) => {
   }
 
   function sendIngredients(ingredient) {
-    props.parentCallback(ingredient);
+    let ingredientCategory;
+
+    for (let index = 0; index < props.allIngredients.length; index++) {
+      if (props.allIngredients[index].ingredients.indexOf(ingredient) > -1) {
+        ingredientCategory = props.allIngredients[index].category;
+      }
+    }
+
+    props.parentCallback(ingredient, ingredientCategory);
   }
 
   let optionList;

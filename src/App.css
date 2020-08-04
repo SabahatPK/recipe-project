@@ -3,3 +3,49 @@ main {
   font-family: sans-serif;
   text-align: center;
 }
+
+li {
+  list-style: none
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 100px 200px 1fr;
+  grid-template-areas:
+    "step1a step1b step1c"
+    "step1d step1e step1f"
+    "step2a step2b step2c";
+}
+
+.step1a {
+  grid-area: step1a;
+}
+
+.step1b {
+  grid-area: step1b;
+}
+
+.step1c {
+  grid-area: step1c;
+}
+
+.step1d {
+  grid-area: step1d;
+  justify-self: start;
+  background-color: yellow
+}
+
+.step1e {
+  grid-area: step1e;
+}
+
+.step2a {
+  grid-area: step2a;
+}
+.step2b {
+  grid-area: step2b;
+}
+.step2c {
+  grid-area: step2c;
+}
